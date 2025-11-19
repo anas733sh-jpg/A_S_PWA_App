@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A♡S Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="games.css">
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    </head>
+
+<body class="login-page">
+
+    <div class="hearts-container"></div>
+
+    <div class="logo">
+        ⤸𓆩A♡S𓆪🔥
+    </div>
+
+    <div class="login-box">
+        <h2>تسجيل الدخول</h2>
+
+        <input type="password" id="password" placeholder="••••" />
+
+        <button id="loginBtn">دخول</button>
+    </div>
+
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2561/2561-preview.mp3"></audio>
+    <audio id="errorSound" src="https://assets.mixkit.co/active_storage/sfx/2573/2573-preview.mp3"></audio>
+
+    <script>
+        // انتظار تحميل DOM بالكامل
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنتاج القلوب 3D المتحركة
+            const heartsContainer = document.querySelector(".hearts-container");
+
+            for (let i = 0; i < 25; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDelay = Math.random() * 3 + "s";
+                heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+                heart.style.transform = `scale(${0.5 + Math.random()})`;
+
+                heartsContainer.appendChild(heart);
+            }
+
+            // الحصول على العناصر
+            const loginBtn = document.getElementById('loginBtn');
+            const clickSound = document.getElementById('clickSound');
+            const errorSound = document.getElementById('errorSound');
+            const passwordInput = document.getElementById('password');
+
+            // وظيفة تسجيل الدخول
+            function login() {
+                clickSound.play();
+
+                const pass = passwordInput.value;
+
+                if (pass === "anas") {
+                    window.location.href = "home.html"; // الصفحة التالية
+                } else {
+                    errorSound.play();
+                    alert("كلمة المرور غير صحيحة!");
+                    passwordInput.value = ''; // مسح الحقل بعد الخطأ
+                    passwordInput.focus(); // إعادة التركيز على الحقل
+                }
+            }
+
+            // ربط حدث النقر برمجياً
+            loginBtn.addEventListener('click', login);
+
+            // السماح بالدخول باستخدام زر Enter
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+    <script>
+        // ... (كودك الحالي هنا) ...
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+
+        // 🟢 تسجيل Service Worker (لتمكين PWA والتثبيت) 🟢
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+          });
+        }
+        // -----------------------------------------------------
+    });
+    </script>
+
+</body>
+</html>

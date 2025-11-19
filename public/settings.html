@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Settings — A♡S</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body{ background:linear-gradient(180deg,#021626,#00314a); color:#fff; font-family:sans-serif; text-align:center; padding:30px; }
+    .box{ background: rgba(255,255,255,0.03); margin:20px auto; padding:15px; border-radius:10px; width:90%; max-width:600px }
+    label{ display:block; margin:8px 0; color:#dfefff }
+  </style>
+</head>
+<body>
+  <h2>إعدادات التطبيق</h2>
+  <div class="box">
+    <label>تبديل الأصوات
+      <input type="checkbox" id="toggleSounds" checked>
+    </label>
+
+    <label>عدد القلوب في الألعاب
+      <input type="range" id="heartCount" min="0" max="200" value="80">
+    </label>
+
+    <div style="margin-top:12px">
+      <button onclick="save()">احفظ الإعدادات</button>
+    </div>
+  </div>
+
+  <script>
+    function save(){
+      const cfg = { sounds: document.getElementById('toggleSounds').checked, hearts: document.getElementById('heartCount').value };
+      localStorage.setItem('appConfig', JSON.stringify(cfg));
+      alert('تم الحفظ');
+    }
+    // restore
+    const cfg = JSON.parse(localStorage.getItem('appConfig')||'{"sounds":true,"hearts":80}');
+    document.getElementById('toggleSounds').checked = cfg.sounds;
+    document.getElementById('heartCount').value = cfg.hearts;
+  </script>
+</body>
+</html>

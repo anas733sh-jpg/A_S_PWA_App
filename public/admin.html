@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>لوحة الإدارة — A♡S</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #ff1e4d;
+    --primary-hover: #ff335f;
+    --secondary: #4aa3ff;
+    --secondary-hover: #6bb8ff;
+    --danger: #ff4444;
+    --danger-hover: #ff6b6b;
+    --success: #00d4aa;
+    --dark-bg: linear-gradient(135deg, #1a1a2e, #0f3460);
+    --card-bg: rgba(255, 255, 255, 0.08);
+    --text-light: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: var(--dark-bg);
+    min-height: 100vh;
+    color: var(--text-light);
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 25px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 16px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.brand {
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff1e4d, #ff8a00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.back-btn {
+    background: var(--primary);
+    padding: 12px 20px;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 30, 77, 0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.back-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 30, 77, 0.4);
+}
+
+.admin-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-container h2 {
+    margin-bottom: 20px;
+    color: var(--text-light);
+    border-right: 4px solid var(--primary);
+    padding-right: 12px;
+    font-size: 22px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-light);
+    font-size: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--secondary);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 3px rgba(74, 163, 255, 0.2);
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--secondary);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+button:hover {
+    background: var(--secondary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 163, 255, 0.3);
+}
+
+.items {
+    margin-top: 25px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.06);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.3s ease;
+}
+
+.item:hover {
+    background: rgba(255,255,255,0.09);
+    transform: translateX(-5px);
+}
+
+.item-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+
+.item-placeholder {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.item-content {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-light);
+    font-size: 18px;
+}
+
+.item-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.delBtn {
+    background: var(--danger) !important;
+    padding: 10px 15px !important;
+    width: auto !important;
+    border-radius: 8px !important;
+}
+
+.delBtn:hover {
+    background: var(--danger-hover) !important;
+    transform: translateY(-2px) !important;
+}
+
+.backup-section {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.backup-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.backup-btn {
+    padding: 12px !important;
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#passwordScreen {
+    text-align: center;
+    margin-top: 100px;
+}
+
+#passwordScreen h2 {
+    margin-bottom: 25px;
+    font-size: 28px;
+    background: linear-gradient(45deg, #fff, #ff9bd3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#adminPass {
+    max-width: 250px;
+    margin: 0 auto 20px;
+    text-align: center;
+    font-size: 18px;
+    padding: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background: rgba(0,212,170,0.9);
+    color: white;
+    border-radius: 10px;
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.error {
+    background: rgba(255,68,68,0.9);
+}
+
+.notification.info {
+    background: rgba(74,163,255,0.9);
+}
+
+/* معاينة الصورة */
+.image-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.preview-container {
+    display: inline-block;
+    position: relative;
+    margin-top: 10px;
+}
+
+.preview-image {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.remove-preview {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.file-input-wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: block;
+    padding: 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px dashed rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+}
+
+.file-input-label:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.file-input-label i {
+    margin-left: 8px;
+}
+
+/* تحسينات للجوال */
+@media (max-width: 768px) {
+    .topbar {
+        padding: 15px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .admin-container {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .item {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .backup-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .brand {
+        font-size: 20px;
+    }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 50px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- شريط علوي -->
+<header class="topbar">
+    <div class="brand">⤸𓆩A♡S𓆪🔥 — لوحة الإدارة</div>
+    <a href="games.html" class="back-btn">
+        <i class="fa fa-arrow-right"></i> العودة للعجلة
+    </a>
+</header>
+
+<!-- شاشة كلمة المرور -->
+<div id="passwordScreen">
+    <h2>🔒 أدخل رمز الدخول</h2>
+    <input type="password" id="adminPass" placeholder="•••••••">
+    <button onclick="checkPass()">دخول</button>
+</div>
+
+<!-- لوحة الإدارة -->
+<div id="adminPanel" class="hidden">
+
+<div class="admin-container">
+
+    <h2>➕ إضافة وضعية جديدة</h2>
+
+    <form id="addForm">
+        <div class="form-group">
+            <label for="positionName">اسم الوضعية</label>
+            <input type="text" id="positionName" name="name" placeholder="أدخل اسم الوضعية..." required>
+        </div>
+
+        <div class="form-group">
+            <label for="positionDesc">شرح / وصف</label>
+            <textarea id="positionDesc" name="description" placeholder="أدخل وصف الوضعية..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>صورة الوضعية (اختياري)</label>
+            <div class="file-input-wrapper">
+                <input type="file" id="imageInput" name="image" accept="image/*">
+                <div class="file-input-label">
+                    <i class="fa fa-cloud-upload-alt"></i> اختر صورة أو اسحبها هنا
+                </div>
+            </div>
+            <div class="image-preview" id="imagePreview"></div>
+        </div>
+
+        <button type="submit" id="submitBtn">
+            <i class="fa fa-plus"></i> إضافة الوضعية
+        </button>
+    </form>
+
+    <h2>📋 الوضعيات الحالية</h2>
+    <div id="items" class="items">
+        <div class="empty-state">
+            <i class="fa fa-inbox"></i>
+            <p>لا توجد وضعيات مضافة بعد</p>
+        </div>
+    </div>
+
+    <div class="backup-section">
+        <h2>💾 النسخ الاحتياطي</h2>
+        <p style="color:var(--text-muted); margin-bottom:15px;">احفظ بياناتك أو استرجعها من نسخة احتياطية</p>
+        <div class="backup-buttons">
+            <button id="exportBtn" class="backup-btn">
+                <i class="fa fa-file-export"></i> تصدير JSON
+            </button>
+            <button id="importBtn" class="backup-btn">
+                <i class="fa fa-file-import"></i> استيراد JSON
+            </button>
+        </div>
+        <input type="file" id="importFile" class="hidden" accept=".json">
+    </div>
+
+</div>
+
+</div>
+
+<!-- منطقة الإشعارات -->
+<div id="notificationArea"></div>
+
+<script>
+// دالة عرض الإشعارات
+function showNotification(message, type = 'success') {
+    const notificationArea = document.getElementById('notificationArea');
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fa fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+        ${message}
+    `;
+    notificationArea.appendChild(notification);
+
+    setTimeout(() => notification.classList.add('show'), 100);
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// حماية بكلمة مرور
+function checkPass() {
+    const val = document.getElementById("adminPass").value;
+    if(val === "anas733"){
+        document.getElementById("passwordScreen").classList.add('hidden');
+        document.getElementById("adminPanel").classList.remove('hidden');
+        loadItems();
+    } else {
+        showNotification("الرمز غير صحيح", 'error');
+    }
+}
+
+// تحميل الوضعيات من السيرفر
+async function loadItems() {
+    try {
+        const response = await fetch('/api/positions');
+        if (!response.ok) throw new Error('فشل في تحميل البيانات');
+
+        const positions = await response.json();
+        displayItems(positions);
+    } catch (error) {
+        console.error('Error loading items:', error);
+        // استخدام البيانات المحلية كنسخة احتياطية
+        const saved = localStorage.getItem('wheelPositions');
+        if (saved) {
+            try {
+                const positions = JSON.parse(saved);
+                displayItems(positions);
+                showNotification('تم تحميل البيانات من النسخة المحلية', 'info');
+                return;
+            } catch (e) {
+                // تجاهل الخطأ
+            }
+        }
+        showNotification('فشل في تحميل الوضعيات', 'error');
+    }
+}
+
+// عرض الوضعيات
+function displayItems(positions) {
+    const itemsContainer = document.getElementById('items');
+
+    if (!positions || positions.length === 0) {
+        itemsContainer.innerHTML = `
+            <div class="empty-state">
+                <i class="fa fa-inbox"></i>
+                <p>لا توجد وضعيات مضافة بعد</p>
+            </div>
+        `;
+        return;
+    }
+
+    itemsContainer.innerHTML = '';
+
+    positions.forEach((pos, index) => {
+        const item = document.createElement('div');
+        item.className = 'item';
+
+        // عرض الصورة إذا كانت موجودة
+        const imageHtml = pos.image ? 
+            `<img src="/public/uploads/${pos.image}" alt="${pos.name}" class="item-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
+            '';
+
+        item.innerHTML = `
+            ${imageHtml}
+            <div class="item-placeholder" style="${pos.image ? 'display:none' : ''}">
+                <i class="fa fa-image"></i>
+            </div>
+            <div class="item-content">
+                <div class="item-name">${pos.name}</div>
+                <div class="item-desc">${pos.description || 'لا يوجد وصف'}</div>
+            </div>
+            <button class="delBtn" onclick="deleteItem(${pos.id || index})">
+                <i class="fa fa-trash"></i>
+            </button>
+        `;
+        itemsContainer.appendChild(item);
+    });
+}
+
+// حذف وضعية
+async function deleteItem(id) {
+    if(!confirm('هل تريد حذف هذه الوضعية؟')) return;
+
+    try {
+        const response = await fetch(`/api/positions/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) throw new Error('فشل في الحذف');
+
+        showNotification('تم حذف الوضعية بنجاح');
+        loadItems();
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        // حذف محلي إذا فشل الاتصال بالسيرفر
+        const saved = localStorage.getItem('wheelPositions');
+        if (saved) {
+            try {
+                let positions = JSON.parse(saved);
+                positions.splice(id, 1);
+                localStorage.setItem('wheelPositions', JSON.stringify(positions));
+                showNotification('تم الحذف من النسخة المحلية');
+                loadItems();
+                return;
+            } catch (e) {
+                // تجاهل الخطأ
+            }
+        }
+        showNotification('فشل في حذف الوضعية', 'error');
+    }
+}
+
+// معاينة الصورة قبل الرفع
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('imagePreview');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <div class="preview-container">
+                    <img src="${e.target.result}" class="preview-image" alt="معاينة الصورة">
+                    <button type="button" class="remove-preview" onclick="clearImagePreview()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            `;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '';
+    }
+});
+
+// مسح معاينة الصورة
+function clearImagePreview() {
+    document.getElementById('imagePreview').innerHTML = '';
+    document.getElementById('imageInput').value = '';
+}
+
+// إضافة وضعية جديدة
+document.getElementById('addForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+
+    try {
+        submitBtn.innerHTML = '<div class="loading"></div> جاري الإضافة...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(this);
+        const name = formData.get('name');
+
+        if (!name.trim()) {
+            throw new Error('يرجى إدخال اسم الوضعية');
+        }
+
+        const response = await fetch('/api/positions', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('فشل في إضافة الوضعية');
+
+        const result = await response.json();
+
+        showNotification('تمت إضافة الوضعية بنجاح!');
+        this.reset();
+        clearImagePreview();
+        loadItems();
+
+    } catch (error) {
+        console.error('Error adding item:', error);
+
+        // حفظ محلي إذا فشل الاتصال بالسيرفر
+        if (error.message !== 'يرجى إدخال اسم الوضعية') {
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const description = formData.get('description');
+            const imageFile = formData.get('image');
+
+            let imageUrl = '';
+            if (imageFile && imageFile.size > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageUrl = e.target.result;
+                    savePositionLocally(name, description, imageUrl);
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                savePositionLocally(name, description, '');
+            }
+        } else {
+            showNotification(error.message, 'error');
+        }
+    } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
+
+// حفظ الوضعية محلياً
+function savePositionLocally(name, description, image) {
+    const positions = JSON.parse(localStorage.getItem('wheelPositions') || '[]');
+    positions.push({
+        name: name,
+        description: description,
+        image: image
+    });
+    localStorage.setItem('wheelPositions', JSON.stringify(positions));
+    showNotification('تمت الإضافة إلى النسخة المحلية');
+    document.getElementById('addForm').reset();
+    clearImagePreview();
+    loadItems();
+}
+
+// تصدير البيانات
+document.getElementById('exportBtn').addEventListener('click', async function() {
+    try {
+        const response = await fetch('/api/positions');
+        if (!response.ok) throw new Error('فشل في التصدير');
+
+        const positions = await response.json();
+        const blob = new Blob([JSON.stringify(positions, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'wheel-positions-backup.json';
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showNotification('تم تصدير البيانات بنجاح');
+    } catch (error) {
+        console.error('Error exporting:', error);
+        // تصدير من البيانات المحلية
+        const saved = localStorage.getItem('wheelPositions');
+        if (saved) {
+            const blob = new Blob([saved], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'wheel-positions-backup.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('تم التصدير من النسخة المحلية');
+        } else {
+            showNotification('فشل في التصدير', 'error');
+        }
+    }
+});
+
+// استيراد البيانات
+document.getElementById('importBtn').addEventListener('click', function() {
+    document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+        const text = await file.text();
+        const positions = JSON.parse(text);
+
+        // محاولة الاستيراد إلى السيرفر أولاً
+        try {
+            const response = await fetch('/api/positions/import', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(positions)
+            });
+
+            if (response.ok) {
+                showNotification('تم الاستيراد بنجاح!');
+                loadItems();
+                this.value = '';
+                return;
+            }
+        } catch (serverError) {
+            console.log('فشل الاستيراد إلى السيرفر، جاري الاستيراد محلياً');
+        }
+
+        // الاستيراد محلياً إذا فشل الاتصال بالسيرفر
+        localStorage.setItem('wheelPositions', JSON.stringify(positions));
+        showNotification('تم الاستيراد إلى النسخة المحلية');
+        loadItems();
+        this.value = '';
+
+    } catch (error) {
+        console.error('Error importing:', error);
+        showNotification('خطأ في ملف الاستيراد', 'error');
+    }
+});
+
+// السماح بالدخول بالزر Enter
+document.getElementById('adminPass').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        checkPass();
+    }
+});
+
+// تحسين تجربة السحب والإفلات
+const fileLabel = document.querySelector('.file-input-label');
+
+fileLabel.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    this.style.background = 'rgba(74, 163, 255, 0.2)';
+    this.style.borderColor = 'var(--secondary)';
+});
+
+fileLabel.addEventListener('dragleave', function() {
+    this.style.background = '';
+    this.style.borderColor = '';
+});
+
+fileLabel.addEventListener('drop', function(e) {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        document.getElementById('imageInput').files = files;
+
+        // تشغيل حدث change يدوياً
+        const event = new Event('change', { bubbles: true });
+        document.getElementById('imageInput').dispatchEvent(event);
+    }
+});
+</script>
+
+</body>
+</html>
